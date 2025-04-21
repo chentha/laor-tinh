@@ -21,6 +21,7 @@ export class HomeComponent {
     'assets/images/slider3.webp',
   ];
   responsiveOptions: any[] | undefined;
+  bannersData: any[] = [];
 
   constructor(
     private allApi: AllApiService,
@@ -52,6 +53,17 @@ export class HomeComponent {
 
     this.getAllProduct();
     this.getCategoryProduct();
+    this.getBanner()
+  }
+
+
+  getBanner(){
+    this.allApi.getAllData(this.allApi.bannersUrl).subscribe(
+      (data:any) =>{
+        this.bannersData = data.data;
+        console.log('banner data', data)
+      }
+    )
   }
 
   gotoPageViewMore(cate: any) {

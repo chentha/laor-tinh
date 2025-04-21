@@ -109,7 +109,6 @@ import {MatRadioModule} from '@angular/material/radio';
       useClass: AuthInterceptor,
       multi: true
     },
-    AllApiService,
     AuthService,
     CookieService,
     LocationService

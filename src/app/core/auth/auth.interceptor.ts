@@ -16,11 +16,12 @@ export class AuthInterceptor implements HttpInterceptor {
     private allFunction: GeneralFunctionService,
     private auth: AuthService
   ) {
-    this.token = localStorage.getItem('token')?.replace(/"/g, '') || null;
+   
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
  
+    this.token = localStorage.getItem('token');
     let authReq = req; // Start with the original request
 
     if (this.token) {
