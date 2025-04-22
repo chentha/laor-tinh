@@ -1,0 +1,20 @@
+
+
+::ng-deep .p-galleria-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: rgba(238, 238, 238, 0.122);
+}
+
+::ng-deep .p-galleria .p-galleria-item-nav {
+    background: transparent;
+    color: #2060a0;
+    width: 4rem;
+    height: 4rem;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+    margin: 0 0.5rem;
+}
