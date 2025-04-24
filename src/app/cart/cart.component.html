@@ -15,7 +15,7 @@
             <img [src]="data.product.thumbnail" alt="Aaron Gordon AG V: Denver" class="product-image" />
             <div class="product-details">
                 <p class="product-name">{{ data.product.name }}</p>
-                <p class="product-price">US {{ data.product.unitPrice | currency }}</p>
+                <p class="product-price">US {{ data.product.unitPrice }}</p>
                 <p class="product-price">Quantity {{ data.quantity }}</p>
             </div>
             <!-- Remove/Delete Icon -->
@@ -32,7 +32,7 @@
 <app-loading [isLoading]="loadingGet"></app-loading>
 
 <div class="cart-summary">
-    <p class="total-price" *ngIf="resultData.length > 0">Total Price: US {{ totalPrice | currency }}</p>
+    <p class="total-price" *ngIf="resultData.length > 0">Total Price: US {{ totalPrice }}</p>
 
     <button *ngIf="resultData.length > 0" (click)="orderProduct()" class="order-button">
         Checkout

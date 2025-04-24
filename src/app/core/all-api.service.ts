@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -39,6 +39,13 @@ export class AllApiService {
     return this.http.get(this.finalBaseApi + url, { params: myParams })
   }
 
+  // all-api.service.ts (or your API service file)
+  getAllDataHeader(url: string, headers?: HttpHeaders) {
+    const options = headers ? { headers } : {};
+    return this.http.get(url, options);
+  }
+
+
   getAllData(url: any) {
     return this.http.get(this.finalBaseApi + url)
   }
@@ -56,7 +63,7 @@ export class AllApiService {
         }
       });
     }
-    return this.http.get(this.finalBaseApi + url + '/' + id , { params: myParams })
+    return this.http.get(this.finalBaseApi + url + '/' + id, { params: myParams })
   }
 
   getDataDetailByIdNoPagination(url: any, id: any) {
@@ -74,21 +81,21 @@ export class AllApiService {
   }
 
   loginData(url: any, data: any, options?: any) {
-  
+
     return this.http.post(this.finalBaseApi + url, data, options);
   }
 
   signupData(url: any, data: any, options?: any) {
-  
+
     return this.http.post(this.finalBaseApi + url, data, options);
   }
-  
+
   editData(url: any, data: any, id: any) {
-    return this.http.put(this.finalBaseApi + url + id , data);
+    return this.http.put(this.finalBaseApi + url + id, data);
   }
 
   deleteData(url: any, id: any) {
-    return this.http.delete(this.finalBaseApi + url + id )
+    return this.http.delete(this.finalBaseApi + url + id)
   }
 
 

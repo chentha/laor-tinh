@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  token:any;
+  // token:any;
   constructor(
     private cookieService: CookieService,
     private router: Router,
@@ -21,14 +21,15 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
  
-    this.token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     let authReq = req; // Start with the original request
 
-    if (this.token) {
+    if (token) {
       try {
         authReq = req.clone({
-          headers: req.headers.set('Authorization', `Bearer ${this.token}`),
+          headers: req.headers.set('Authorization', `Bearer ${token}`),
         });
+        console.log('token', authReq)
       } catch (error) {
         console.error('Token decryption failed:', error);
       }

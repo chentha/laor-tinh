@@ -104,14 +104,14 @@ import {MatRadioModule} from '@angular/material/radio';
     ToastrModule.forRoot(),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true
+    // },
     AuthService,
-    CookieService,
-    LocationService
+    // CookieService,
+    // LocationService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

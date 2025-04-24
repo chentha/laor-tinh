@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NGXToastrService } from '../core/function/toast.service';
 import { HttpHeaders } from '@angular/common/http';
 import { CartService } from '../core/cart.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-detial-product',
@@ -25,6 +26,9 @@ export class DetialProductComponent implements OnInit {
   //   clothesProductId: new FormControl('', Validators.required),
   //   quantity: new FormControl('', Validators.required)
   // })
+
+  size = new FormControl();
+  color = new FormControl();
 
   responsiveOptions: any[] = [
     {
@@ -104,8 +108,12 @@ export class DetialProductComponent implements OnInit {
     const inputData = {
       'userId': this.userId,
       'clothesProductId': Number(this.productId),
+      'optionSizes': [this.size.value],
+      'optionColors':[ this.color.value],
       'quantity': this.quantity,
     }
+
+    console.log('inputData', inputData)
 
     this.allApi.createData(this.allApi.cartUrl, inputData).subscribe(
       (data: any) => {
