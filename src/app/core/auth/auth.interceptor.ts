@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -20,19 +20,13 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
- 
     const token = localStorage.getItem('token');
-    let authReq = req; // Start with the original request
-
+    let authReq = req;
+  
     if (token) {
-      try {
-        authReq = req.clone({
-          headers: req.headers.set('Authorization', `Bearer ${token}`),
-        });
-        console.log('token', authReq)
-      } catch (error) {
-        console.error('Token decryption failed:', error);
-      }
+      authReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`),
+      });
     } else {
       // If no token is present, use Basic Auth
       const username = environment.Username;
@@ -42,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: req.headers.set('Authorization', `Basic ${basicAuthCredentials}`),
       });
     }
-
+  
     // Fallback for default headers (if necessary)
     if (!authReq.headers.has('Authorization')) {
       authReq = authReq.clone({
@@ -52,4 +46,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq);
   }
+
+  
 }

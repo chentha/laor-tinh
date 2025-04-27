@@ -80,6 +80,10 @@ export class AllApiService {
     return this.http.post(this.finalBaseApi + url, data);
   }
 
+  createDataHeader(url: any, data: any, headers: HttpHeaders) {
+    return this.http.post(this.finalBaseApi + url, data, { headers });
+  }  
+
   loginData(url: any, data: any, options?: any) {
 
     return this.http.post(this.finalBaseApi + url, data, options);

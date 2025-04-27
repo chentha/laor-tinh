@@ -18,8 +18,8 @@ export class DetialProductComponent implements OnInit {
   activeIndex: number = 0;
   quantity: number = 1;
   userId: any;
-  token:any
-  CountCart:any;
+  token: any
+  CountCart: any;
 
   // inputGroup = new FormGroup({
   //   userId: new FormControl('', Validators.required),
@@ -60,17 +60,21 @@ export class DetialProductComponent implements OnInit {
       console.log('Product ID:', this.productId);
     });
 
-    const userString = localStorage.getItem('user'); 
-    const user = userString ? JSON.parse(userString) : null; 
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
     this.userId = user?.data?.user?.id;
-    
+
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.token = localStorage.getItem('token')
+   }
 
   // get f() {
   //   return this.inputGroup.controls
   // }
+
+  
 
   getDetail() {
     this.allApi.getDataDetailById(this.allApi.productUrl, this.productId).subscribe(
@@ -105,34 +109,32 @@ export class DetialProductComponent implements OnInit {
   }
 
   addCart() {
+  
     const inputData = {
       'userId': this.userId,
       'clothesProductId': Number(this.productId),
-      'optionSizes': [this.size.value],
-      'optionColors':[ this.color.value],
+      'optionValues': [this.size.value,this.color.value],
       'quantity': this.quantity,
-    }
-
-    console.log('inputData', inputData)
-
+    };
+  
+    console.log('inputData', inputData);
+  
     this.allApi.createData(this.allApi.cartUrl, inputData).subscribe(
       (data: any) => {
-        console.log('add cart data sucess', data);
+        console.log('add cart data success', data);
         const newCartCount = data.data?.quantity || 1;
         this.cartService.updateCartCount(newCartCount);
         this.ToastrService.typeSuccessAddCart();
-        this.router.navigate(
-          ['detial-product'],
-          {
-            queryParams: { product_id: data.id },
-          },
-        );
+        this.router.navigate(['detial-product'], {
+          queryParams: { product_id: data.id },
+        });
       },
       (err) => {
-        console.log('err add cart', err)
+        console.log('err add cart', err);
       }
-    )
+    );
   }
-
+  
+  
 }
 

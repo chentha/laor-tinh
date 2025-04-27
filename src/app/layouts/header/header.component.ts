@@ -128,7 +128,7 @@ export class HeaderComponent implements OnInit {
 
                 // this.cookieService.set('token', tmpToken, 0.25); 
                 localStorage.setItem('user', JSON.stringify(this.userData));
-                localStorage.setItem('token', JSON.stringify(this.accessToken));
+                localStorage.setItem('token', this.accessToken);
             },
             err => {
                 this.checkAfterLogin = true;

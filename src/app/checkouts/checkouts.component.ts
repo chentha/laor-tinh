@@ -6,6 +6,9 @@ import { NGXToastrService } from '../core/function/toast.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../core/order.service';
 import { LocationService } from '../core/location.service';
+import { KhqrComponent } from '../popup-khqr/khqr/khqr.component';
+import { GeneralFunctionService } from '../core/function/general-function.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-checkouts',
@@ -44,11 +47,11 @@ export class CheckoutsComponent {
   // })
 
   paymentOptions = [
-    { value: 'ABA', label: 'ABA', image: '../../assets/images/aba-pay-web.png' },
-    { value: 'Credit Card', label: 'Credit Card', image: '../../assets/images/credit-debit-card.png' },
-    { value: 'AC', label: 'Xpay', image: '../../assets/images/xpay.png' },
-    { value: 'Wing', label: 'Wing', image: '../../assets/images/Wing.png' },
-    { value: 'Cash On Delivery', label: 'Cash On Delivery', image: '../../assets/images/cod-kh-en.png' },
+    { value: 'KHQR', label: 'KHQR', image: '../../assets/images/khqr.png' },
+    // { value: 'Credit Card', label: 'Credit Card', image: '../../assets/images/credit-debit-card.png' },
+    // { value: 'AC', label: 'Xpay', image: '../../assets/images/xpay.png' },
+    // { value: 'Wing', label: 'Wing', image: '../../assets/images/Wing.png' },
+    // { value: 'Cash On Delivery', label: 'Cash On Delivery', image: '../../assets/images/cod-kh-en.png' },
   ];
 
 
@@ -74,7 +77,9 @@ export class CheckoutsComponent {
     private cartService: CartService,
     private orderService: OrderService,
     private router: Router,
-    private locationService: LocationService
+    private allFunction:GeneralFunctionService,
+    private locationService: LocationService,
+    public dialog: MatDialog,
   ) {
     this.route.queryParams.subscribe(params => {
       this.orderId = params['order_id'];
@@ -165,6 +170,7 @@ export class CheckoutsComponent {
         latitude: this.location?.latitude,
       }
     }
+    this.openFormKhqr('add')
     console.log('json data order', inputData)
 
     this.allApi.createData(this.allApi.paymentUrl, inputData).subscribe(
@@ -177,13 +183,40 @@ export class CheckoutsComponent {
   }
 
 
-  deleteCart(id:any) {
-    this.allApi.deleteData(this.allApi.cartUrl+'/', id).subscribe(
-      (data:any) =>{
+  deleteCart(id: any) {
+    this.allApi.deleteData(this.allApi.cartUrl + '/', id).subscribe(
+      (data: any) => {
         console.log('data delete all cart', data)
       }
     )
   }
+
+  openFormKhqr(type: 'add' | 'edit', data?: any) {
+    let tmp_DialogData: any = {
+      size: "medium",
+      type: type,
+      form_name: 'khqr'
+    }
+    const dialogRef = this.dialog.open(KhqrComponent,
+      this.allFunction.dialogKhqr(
+        tmp_DialogData.size,
+        tmp_DialogData.type,
+        tmp_DialogData.form_name,
+        data
+      )
+    )
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          if (result.is_refresh) {
+            result.is_refresh = true
+          }
+        }
+        console.log('close', result)
+      }
+    )
+  }
+
 
 
 }

@@ -91,7 +91,30 @@ export class GeneralFunctionService {
     return tmp_data
   }
 
+
+
   dialogDataProfile(size: 'medium' | 'large' | 'extra large', type?: 'add' | 'edit' | 'reset' | 'view', form_name?: any, data?: any) {
+    let width = '100%'
+    if (size == 'medium') { width = '500px' }
+    else if (size == 'large') { width = '1000px' }
+    else if (size == 'extra large') { width = '1200px' }
+    let tmp_data: any = {
+      width: width,
+      height: "70%",
+      position: { center: '0' },
+      disableClose: true,
+      data: {
+        type: type,
+        form_name: form_name,
+        data: data || null
+      },
+      // panelClass: ["my_popup_slide" , "my_slide_left", "max-width-95"]
+      // panelClass: [form_name, "animate__animated", "animate__slideInRight", "m-w-100", "animate_duration_0_5"]
+    };
+    return tmp_data
+  }
+
+  dialogKhqr(size: 'medium' | 'large' | 'extra large', type?: 'add' | 'edit' | 'reset' | 'view', form_name?: any, data?: any) {
     let width = '100%'
     if (size == 'medium') { width = '500px' }
     else if (size == 'large') { width = '1000px' }

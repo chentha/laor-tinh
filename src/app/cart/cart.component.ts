@@ -6,6 +6,7 @@ import { GeneralFunctionService } from '../core/function/general-function.servic
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { CartService } from '../core/cart.service';
 import { OrderService } from '../core/order.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -26,6 +27,7 @@ export class CartComponent {
   quantity: number = 1;
   userId: any;
   CountCart: any;
+  remark = new FormControl()
 
   constructor(
     private allFunction: GeneralFunctionService,
@@ -81,34 +83,40 @@ export class CartComponent {
   }
 
   orderProduct() {
-    const items = this.dataObject.map((data: any) => ({
-      productId: data.product.id,
-      quantity: data.quantity,
-    }));
+    const items = this.dataObject.map((data: any) => {
+      const sizeIds = data.product.optionProducts[0]?.sizes.map((size: any) => size.id) || [];
+      const colorIds = data.product.optionProducts[0]?.colors.map((color: any) => color.id) || [];
+      
+      const optionValues = [...sizeIds, ...colorIds];
+  
+      return {
+        productId: data.product.id,
+        quantity: data.quantity,
+        optionValues: optionValues,  
+      };
+    });
   
     const inputData = {
-      userId: this.userId,
+      remark: null,
       items: items,
     };
   
-    console.log('data json', inputData);
+    console.log('data json', this.dataObject);
   
     this.allApi.createData(this.allApi.orderUrl, inputData).subscribe(
       (data: any) => {
         console.log('data order success', data);
         this.orderService.setOrderData(data);
-        this.router.navigate(['checkouts'],
-          {
-            queryParams: { order_id: data.data.id },
-          },
-        );
+        this.router.navigate(['checkouts'], {
+          queryParams: { order_id: data.data.id },
+        });
         this.closeForm();
       },
       (err: any) => {
         console.log('Error creating order:', err);
       }
     );
-  } 
+  }
   
   gotoPage(order: any) {
     console.log(order);

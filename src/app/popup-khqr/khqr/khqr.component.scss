@@ -1,0 +1,128 @@
+.ks_div_blk {
+    border-radius: 0.438rem !important;
+    border: 1px solid #e6e7f0 !important;
+    box-shadow: 0 0.175rem 0.45rem rgba(140, 152, 164, 0.075) !important;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.ks_pm_bg_clr {
+    background-color: #f6f6f6 !important;
+}
+
+.ks_p10 {
+    padding: 0.625rem !important;
+}
+
+.ks_p20 {
+    padding: 1.25rem !important;
+}
+
+.ks_wth160 {
+    width: 160px !important;
+}
+
+.ks_cnt_hd {
+    padding: 0.625rem 0 0.75rem !important;
+}
+
+.ks_main_cont {
+    height: 100% !important;
+    background-color: #e21a1a !important;
+    border-radius: 0.375rem !important;
+    padding: 0.313rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    filter: drop-shadow(0 0 0.2rem #e21a1a) !important;
+}
+
+.ks_content {
+    position: relative !important;
+    margin-top: auto !important;
+    height: 100% !important;
+    background-color: #ffffff;
+    border-radius: 0.25rem !important;
+    text-align: left !important;
+    clip-path: polygon(0 0,
+            calc(100% - 0.75rem) 0,
+            100% 0.75rem,
+            100% 100%,
+            0 100%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.ks_brd_btm_dash {
+    border-bottom: 1px dashed #e1e1e1 !important;
+}
+
+.ks_sec_clr {
+    color: #737373 !important;
+}
+
+.ks_lbl {
+    font-size: 0.9375rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+}
+
+.ks_fs12 {
+    font-size: 12px !important;
+}
+
+.ks_d_grid {
+    display: grid !important;
+}
+
+.ks_plc_itm_ctr {
+    place-items: center !important;
+}
+
+.ks_pos_abs {
+    position: absolute !important;
+}
+
+.qrcode-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  
+  #currency-sign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+
+.ks_pos_abs_ctr {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.ks_plc_itm_ctr .ks_pos_abs {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.ks_wth36 {
+    width: 36px !important;
+}
+
+.ks_hgt36 {
+    height: 36px !important;
+}
+
+.mystyle {
+    margin-top: auto !important;
+    height: 100% !important;
+    position: relative !important;
+}

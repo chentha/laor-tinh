@@ -26,11 +26,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { MatExpansionModule} from '@angular/material/expansion';
-import { AllApiService } from './core/all-api.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth/auth.interceptor';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './core/auth/auth.service';
 import { DialogModule } from 'primeng/dialog';
 import { LoadingComponent } from './shared/components/loading/loading.component';
@@ -49,9 +47,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { CheckoutsComponent } from './checkouts/checkouts.component';
-import { LocationService } from './core/location.service';
 import { ProfileUserComponent } from './profile-user/profile-user.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { KhqrComponent } from './popup-khqr/khqr/khqr.component';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +67,8 @@ import {MatRadioModule} from '@angular/material/radio';
     LoadingButtonComponent,
     CartComponent,
     CheckoutsComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    KhqrComponent
   ],
   imports: [
     BrowserModule,
@@ -102,13 +102,10 @@ import {MatRadioModule} from '@angular/material/radio';
     ProgressSpinnerModule,
     MatRadioModule,
     ToastrModule.forRoot(),
+    
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: AuthInterceptor,
-    //   multi: true
-    // },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     // CookieService,
     // LocationService
