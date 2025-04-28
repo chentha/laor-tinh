@@ -17,7 +17,9 @@ export class AllApiService {
   orderUrl = '/orders';
   paymentUrl = '/orders/payment'
   userUrl = '/users';
-  bannersUrl = '/public/banners'
+  bannersUrl = '/public/banners';
+
+  paymentBankUrl = 'api/orders/management/{{orderId}}/payment?payment-method=CASH'
 
   constructor(
     private http: HttpClient,
@@ -38,6 +40,13 @@ export class AllApiService {
     }
     return this.http.get(this.finalBaseApi + url, { params: myParams })
   }
+
+
+  //khqr payment
+  createPayment(id?: number) {
+    return this.http.post(this.finalBaseApi + 'api/orders/management/' + id + '/payment?payment-method=', 'CASH');
+  }
+
 
   // all-api.service.ts (or your API service file)
   getAllDataHeader(url: string, headers?: HttpHeaders) {

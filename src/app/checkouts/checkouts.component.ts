@@ -37,6 +37,7 @@ export class CheckoutsComponent {
   bank = new FormControl();
 
   errorMessage: string | null = null;
+  dataPayment:any;
 
   // inputGroup = new FormGroup({
   //   paymentMethod: new FormControl(''),
@@ -178,6 +179,7 @@ export class CheckoutsComponent {
         console.log('data order success', data)
         this.visible = true;
         this.deleteCart(this.userId);
+        this.createPayment(this.orderId);
       }
     )
   }
@@ -190,6 +192,19 @@ export class CheckoutsComponent {
       }
     )
   }
+
+
+  createPayment(id?:number){
+    this.allApi.createPayment(id).subscribe(
+      (data:any) => {
+        this.dataPayment = data;
+        console.log('data sucess payment', data)
+      }
+    )
+  }
+
+
+  
 
   openFormKhqr(type: 'add' | 'edit', data?: any) {
     let tmp_DialogData: any = {
@@ -216,6 +231,10 @@ export class CheckoutsComponent {
       }
     )
   }
+
+
+
+
 
 
 

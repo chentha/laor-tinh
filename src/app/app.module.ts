@@ -50,6 +50,7 @@ import { CheckoutsComponent } from './checkouts/checkouts.component';
 import { ProfileUserComponent } from './profile-user/profile-user.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { KhqrComponent } from './popup-khqr/khqr/khqr.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -102,7 +103,7 @@ import { KhqrComponent } from './popup-khqr/khqr/khqr.component';
     ProgressSpinnerModule,
     MatRadioModule,
     ToastrModule.forRoot(),
-    
+    QRCodeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

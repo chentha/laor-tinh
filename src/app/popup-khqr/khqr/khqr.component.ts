@@ -78,6 +78,38 @@ export class KhqrComponent {
       </svg>`
     };
 
-    return currencySigns[currencyCode] ;
+    return currencySigns[currencyCode];
   }
+
+
+
+  generateKHQR(KHQRString: string) {
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+      text: KHQRString,
+      width: 128,
+      height: 128,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+      svg: true
+    });
+
+    const decodeResult = KHQR.BakongKHQR.decode(KHQRString);
+    const { merchantName, transactionAmount, transactionCurrency } = decodeResult.data as { merchantName: string, transactionAmount: number, transactionCurrency: string };
+
+    const currencyCodes: { [key: string]: string } = {
+      "840": 'USD',
+      "116": 'KHR'
+    };
+
+    const currencyCode = currencyCodes[transactionCurrency];
+
+    this.renderer.setProperty(this.el.nativeElement.querySelector("#merc-name"), 'innerHTML', merchantName);
+    this.renderer.setProperty(this.el.nativeElement.querySelector("#total-amount-khqr"), 'innerHTML', this.formatAmount(transactionAmount, currencyCode));
+    this.renderer.setProperty(this.el.nativeElement.querySelector("#currency"), 'innerHTML', currencyCode);
+    this.renderer.setProperty(this.el.nativeElement.querySelector("#currency-sign"), 'innerHTML', this.getCurrencySign(currencyCode));
+  }
+
+
+
 }
