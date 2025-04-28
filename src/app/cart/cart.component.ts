@@ -129,7 +129,6 @@ export class CartComponent {
   }
 
 
-
   calculateTotalPrice() {
     let total = 0;
     this.resultData.forEach((item: any) => {

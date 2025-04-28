@@ -198,11 +198,11 @@ export class CheckoutsComponent {
     this.allApi.createPayment(id).subscribe(
       (data:any) => {
         this.dataPayment = data;
+        this.openFormKhqr('edit', data)
         console.log('data sucess payment', data)
       }
     )
   }
-
 
   
 
