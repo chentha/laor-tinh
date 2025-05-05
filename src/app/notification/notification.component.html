@@ -1,0 +1,27 @@
+<div class="search-container mt-4">
+    <div class="search-header">
+        <h4 class="search-text">Notification</h4>
+        <button mat-button class="custom-close-button me-3" (click)="closeForm()">
+            <i class="fa-solid fa-xmark" style="font-size: 23px;"></i>
+        </button>
+    </div>
+</div>
+<hr>
+
+
+<!-- <div class="data-view" *ngIf="!loadingGet">
+    <div class="product-list" *ngFor="let data of resultData">
+        <div class="product-item" (click)="gotoPage(data.id)">
+            <img [src]="data.product?.thumbnail || 'assets/images/default-image.webp'" alt="favorite image" class="product-image" />
+            <div class="product-details">
+                <p class="product-name">{{ data.name }}</p>
+                <p class="product-price">US {{ data.unitPrice }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span class="no-data" *ngIf="!loadingGet && resultData?.length <= 0 ">
+    No Data 
+</span>
+<app-loading [isLoading]="loadingGet"></app-loading> -->

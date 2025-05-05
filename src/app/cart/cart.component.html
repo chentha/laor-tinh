@@ -12,12 +12,13 @@
 <div class="data-view" *ngIf="!loadingGet">
     <div class="product-list" *ngFor="let data of resultData">
         <div class="product-item">
-            <img [src]="data.product.thumbnail" alt="Aaron Gordon AG V: Denver" class="product-image" />
+            <img [src]="data.product.thumbnail || 'assets/images/default-image.webp'" alt="image" class="product-image" />
             <div class="product-details">
                 <p class="product-name">{{ data.product.name }}</p>
                 <p class="product-price">US {{ data.product.unitPrice }}</p>
                 <p class="product-price">Quantity {{ data.quantity }}</p>
             </div>
+            
             <!-- Remove/Delete Icon -->
             <mat-icon class="delete-icon" (click)="removeFromCart(data.id)">
                 delete
@@ -32,7 +33,7 @@
 <app-loading [isLoading]="loadingGet"></app-loading>
 
 <div class="cart-summary">
-    <p class="total-price" *ngIf="resultData.length > 0">Total Price: US {{ totalPrice }}</p>
+    <p class="total-price" *ngIf="resultData?.length > 0">Total Price: US {{ totalPrice }}</p>
 
     <button *ngIf="resultData.length > 0" (click)="orderProduct()" class="order-button">
         Checkout

@@ -1,23 +1,25 @@
 <!-- <app-loading [isLoading]="loading"></app-loading> -->
 <div class="container home-page mt-3">
+    <div class="filter">
+        <div class="box-filter">
+            <div>
+                <button class="btn-filter" (click)="openFormFilter('add')">
+                    <mat-icon class="filter-list-icon">filter_list</mat-icon> Filter
+                </button>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
     <!-- Carousel Section -->
-    <p-carousel 
-        [value]="bannersData" 
-        styleClass="custom-carousel" 
-        [numVisible]="1" 
-        [numScroll]="1" 
-        [circular]="true"
-        [autoplayInterval]="3200" 
-        [responsiveOptions]="responsiveOptions">
-        
+    <p-carousel [value]="bannersData" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1" [circular]="true"
+        [autoplayInterval]="3200" [responsiveOptions]="responsiveOptions">
+
         <ng-template let-banner pTemplate="item">
-        <img 
-            style="width: 100%; height: 40vh; object-fit: contain;" 
-            [src]="banner.thumbnail" 
-            alt="Banner Image" />
+            <img style="width: 100%; height: 40vh; object-fit: contain;" [src]="banner.thumbnail" alt="Banner Image" />
         </ng-template>
     </p-carousel>
-    
+
 
     <div *ngFor="let category of groupedProducts">
         <div class="col-12">
@@ -29,13 +31,26 @@
 
         <div class="row">
             <div class="col-sm-4 col-md-2 product-container" *ngFor="let product of category.products">
-                <div pAnimateOnScroll enterClass="animate-fadein" leaveClass="animate-fadeout"
-                    class="card" style="cursor: pointer;" (click)="gotoPage(product.id)">
-                    <img style="height: 260px; object-fit: cover;" class="card-img-top" [src]="product.thumbnail"
-                        alt="Card image cap" />
+                <div pAnimateOnScroll enterClass="animate-fadein" leaveClass="animate-fadeout" class="card"
+                    style="cursor: pointer;" (click)="gotoPage(product.id)">
+                    <img *ngIf="product?.thumbnail != 'image'" style="height: 260px; object-fit: cover;"
+                        class="card-img-top" [src]="product?.thumbnail" alt="Card image cap" />
+                    <img *ngIf="product?.thumbnail == 'image'" style="height: 260px; object-fit: contain;"
+                        class="card-img-top" [src]="'assets/images/default-image.webp'" alt="Card image cap" />
                     <div class="card-body">
-                        <span class="card-text">US {{ product.unitPrice | currency }}</span>
-                        <p class="card-text">{{ product.name }}</p>
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-10">
+                                <span class="card-text">US {{ product.unitPrice | currency }}</span>
+                                <p class="card-text">{{ product.name }}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-icon 
+                                (click)="addFavorite(product); $event.stopPropagation()" 
+                                class="favorite-data ms-auto">
+                                {{ product.favorite || favorited ? 'favorite' : 'favorite_border' }}
+                              </mat-icon>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

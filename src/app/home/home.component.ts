@@ -1,10 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { AllApiService } from '../core/all-api.service';
 import { Router } from '@angular/router';
 import { GeneralFunctionService } from '../core/function/general-function.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { HttpHeaders } from '@angular/common/http';
+import { FilterProductComponent } from '../filter-product/filter-product.component';
 
 @Component({
   selector: 'app-home',
@@ -23,14 +24,24 @@ export class HomeComponent {
   ];
   responsiveOptions: any[] | undefined;
   bannersData: any[] = [];
+  favorited:boolean = false;
+  type:any;
+
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public dataDetail: any,
     private allApi: AllApiService,
     private router: Router,
     private allFunction: GeneralFunctionService,
     public dialog: MatDialog,
+    public dialogRef: MatDialogRef<HomeComponent>,
   ) {
-
+    console.log('tmp data', this.dataDetail)
+    this.type = this.dataDetail.type
+    if (this.type == 'add') {
+      this.getAllProduct()
+      
+    }
   }
 
   ngOnInit() {
@@ -69,15 +80,7 @@ export class HomeComponent {
     );
   }
 
-  // getBanner(){
-  //   this.allApi.getAllData(this.allApi.bannersUrl).subscribe(
-  //     (data:any) =>{
-  //       this.bannersData = data.data;
-  //       console.log('banner data', data)
-  //     }
-  //   )
-  // }
-
+  
   gotoPageViewMore(cate: any) {
     console.log(cate);
     this.router.navigate(
@@ -100,7 +103,10 @@ export class HomeComponent {
 
   getAllProduct() {
     this.loading = true;
-    this.allApi.getAllData(this.allApi.productUrl).subscribe(
+    const filter = {
+    };
+
+    this.allApi.getDataWithFilter(this.allApi.productUrl, filter).subscribe(
       (data: any) => {
         this.loading = false;
         this.dataProduct = data.data;
@@ -143,6 +149,20 @@ export class HomeComponent {
     this.groupedProducts = Object.values(grouped);
   }
 
+
+  //add favorite
+  addFavorite(data?:any){
+    console.log('data fav', data)
+    this.allApi.addFavorite(this.allApi.favoriteUrl + '/' + data.id, '').subscribe(
+      (data:any) =>{
+        console.log('added favorite', data);
+        this.favorited = true;
+        this.getAllProduct()
+      }
+    )
+  }
+
+
   openForm(type: 'add' | 'edit', data?: any) {
     let tmp_DialogData: any = {
       size: "medium",
@@ -168,4 +188,31 @@ export class HomeComponent {
       }
     )
   }
+
+
+  openFormFilter(type: 'add' | 'edit', data?: any) {
+    let tmp_DialogData: any = {
+      size: "medium",
+      type: type,
+      form_name: 'filter'
+    }
+    const dialogRef = this.dialog.open(FilterProductComponent,
+      this.allFunction.dialogData(
+        tmp_DialogData.size,
+        tmp_DialogData.type,
+        tmp_DialogData.form_name,
+        data
+      )
+    )
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          if (result.filters) {
+            console.log('Selected Filters:', result.filters);          }
+        }
+        console.log('close', result)
+      }
+    )
+  }
+
 }

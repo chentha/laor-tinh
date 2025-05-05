@@ -1,15 +1,15 @@
-
-
 /* SCSS for the View More Link */
 .view-more-link {
     font-weight: 500;
-    color: black; /* Blue color */
+    color: black;
+    /* Blue color */
     text-decoration: none;
     transition: color 0.3s ease;
     font-size: 14px;
 
     &:hover {
-        color: black; /* Darker blue on hover */
+        color: black;
+        /* Darker blue on hover */
         text-decoration: underline;
     }
 }
@@ -27,20 +27,62 @@
 
 /* SCSS for Card and Game Container */
 .product-container {
-    margin-bottom: 15px;
-    .card {
-        border: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-        
-        &:hover {
-            transform: scale(1.05);
+  margin-bottom: 15px;
+
+  .card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+        position: relative;
+
+        .favorite-data {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            color: rgba(148, 144, 144, 0.821);
         }
     }
 
     .card-img-top {
-        width: 100%;
-        height: auto;
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+
+
+.filter{
+    margin-bottom: 10px;
+    .box-filter{
+        .btn-filter{
+            width: 90px;
+            height: 30px;
+            font-size: 14px;
+            background: none;
+            border: 1px solid grey;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .filter-list-icon{
+                font-size: 17px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &:hover{
+                opacity: 0.6;
+            }
+        }
     }
 }
 
@@ -55,6 +97,7 @@
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -69,6 +112,7 @@
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
     }

@@ -122,12 +122,14 @@ export class DetialProductComponent implements OnInit {
     this.allApi.createData(this.allApi.cartUrl, inputData).subscribe(
       (data: any) => {
         console.log('add cart data success', data);
-        const newCartCount = data.data?.quantity || 1;
+        const currentCount = this.cartService.getCartCount();
+        const addedQuantity = 1;
+        const newCartCount = currentCount + addedQuantity;
         this.cartService.updateCartCount(newCartCount);
         this.ToastrService.typeSuccessAddCart();
-        this.router.navigate(['detial-product'], {
-          queryParams: { product_id: data.id },
-        });
+        // this.router.navigate(['detial-product'], {
+        //   queryParams: { product_id: data?.id },
+        // });
       },
       (err) => {
         console.log('err add cart', err);

@@ -13,6 +13,8 @@ import { CartComponent } from 'src/app/cart/cart.component';
 import { CartService } from 'src/app/core/cart.service';
 import { ProfileUserComponent } from 'src/app/profile-user/profile-user.component';
 import { NGXToastrService } from 'src/app/core/function/toast.service';
+import { FavoriteFormComponent } from 'src/app/favorite-form/favorite-form.component';
+import { NotificationComponent } from 'src/app/notification/notification.component';
 
 @Component({
     selector: 'app-header',
@@ -27,8 +29,8 @@ export class HeaderComponent implements OnInit {
     userData: any;
     Avatar: any;
     accessToken: any;
-    cartCount: number = 0;
-    cateList:any;
+    cartCount: any;
+    cateList: any;
 
     inputGroup = new FormGroup({
         name: new FormControl('', Validators.required),
@@ -50,6 +52,7 @@ export class HeaderComponent implements OnInit {
         this.cartService.cartCount$.subscribe((count) => {
             this.cartCount = count;
         });
+        console.log('count cart', this.cartCount)
         this.getCategory();
     }
 
@@ -79,9 +82,9 @@ export class HeaderComponent implements OnInit {
         item.showSubmenu = false;
     }
 
-    getCategory(){
+    getCategory() {
         this.allApi.getAllData(this.allApi.categoryUrl).subscribe(
-            (data:any) => {
+            (data: any) => {
                 this.cateList = data.data;
                 console.log('data', this.cateList)
             }
@@ -90,13 +93,15 @@ export class HeaderComponent implements OnInit {
 
     gotoPage(category: any) {
         console.log(category);
-        this.router.navigate(
-          ['shop-more'],
-          {
-            queryParams: { category: category },
-          },
-        );
-      }
+        if (category != null) {
+            this.router.navigate(
+                ['shop-more'],
+                {
+                    queryParams: { category: category },
+                },
+            );
+        }
+    }
 
 
     login() {
@@ -241,6 +246,60 @@ export class HeaderComponent implements OnInit {
             }
         )
     }
+
+    openFormFavorite(type: 'add' | 'edit', data?: any) {
+        let tmp_DialogData: any = {
+            size: "medium",
+            type: type,
+            form_name: 'favorite-form'
+        }
+        const dialogRef = this.dialog.open(FavoriteFormComponent,
+            this.allFunction.dialogData(
+                tmp_DialogData.size,
+                tmp_DialogData.type,
+                tmp_DialogData.form_name,
+                data
+            )
+        )
+        dialogRef.afterClosed().subscribe(
+            result => {
+                if (result) {
+                    if (result.is_refresh) {
+                        result.is_refresh = true
+                    }
+                }
+                console.log('close', result)
+            }
+        )
+    }
+
+    openFormNoti(type: 'add' | 'edit', data?: any) {
+        let tmp_DialogData: any = {
+            size: "medium",
+            type: type,
+            form_name: 'notification'
+        }
+        const dialogRef = this.dialog.open(NotificationComponent,
+            this.allFunction.dialogData(
+                tmp_DialogData.size,
+                tmp_DialogData.type,
+                tmp_DialogData.form_name,
+                data
+            )
+        )
+        dialogRef.afterClosed().subscribe(
+            result => {
+                if (result) {
+                    if (result.is_refresh) {
+                        result.is_refresh = true
+                    }
+                }
+                console.log('close', result)
+            }
+        )
+    }
+
+
 
     openFormProfile(type: 'add' | 'edit', data?: any) {
         let tmp_DialogData: any = {

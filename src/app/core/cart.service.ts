@@ -5,24 +5,22 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  
-  private cartCountSource = new BehaviorSubject<number>(this.getCartCountFromLocalStorage());
-  cartCount$ = this.cartCountSource.asObservable();
+  private cartCount = new BehaviorSubject<number>(this.getStoredCartCount());
+  cartCount$ = this.cartCount.asObservable();
 
   constructor() {}
 
-  private getCartCountFromLocalStorage(): number {
-    const storedCount = localStorage.getItem('cartCount');
-    return storedCount ? parseInt(storedCount, 10) : 0;
+  private getStoredCartCount(): number {
+    const stored = localStorage.getItem('cartCount');
+    return stored ? parseInt(stored, 10) : 0;
   }
 
-  updateCartCount(newCount: number) {
-    localStorage.setItem('cartCount', newCount.toString());
-    this.cartCountSource.next(newCount);
+  updateCartCount(count: number) {
+    localStorage.setItem('cartCount', count.toString());
+    this.cartCount.next(count);
   }
 
-  refreshCartCount() {
-    const newCount = this.getCartCountFromLocalStorage();
-    this.cartCountSource.next(newCount);
+  getCartCount(): number {
+    return this.cartCount.getValue();
   }
 }

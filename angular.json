@@ -38,7 +38,11 @@
               "./node_modules/ngx-toastr/toastr-old.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+                "src/assets/js/khqr-1.0.15.min.js",
+                "src/assets/js/qrcode.min.js",
+                "src/assets/js/transaction-script.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -31,3 +31,6 @@ NPM INSTALL:
         ng add @angular/material
     - 08 / Jan / 2025:
         npm install primeng primeicons
+    -04 / May / 2025
+        npm install ng5-slider
+

@@ -1,19 +1,17 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { GeneralFunctionService } from '../core/function/general-function.service';
-import { AllApiService } from '../core/all-api.service';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AllApiService } from '../core/all-api.service';
+import { GeneralFunctionService } from '../core/function/general-function.service';
+import { SearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
-  selector: 'app-search-form',
-  templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.scss']
+  selector: 'app-favorite-form',
+  templateUrl: './favorite-form.component.html',
+  styleUrls: ['./favorite-form.component.scss']
 })
-export class SearchFormComponent {
-  search_key: any;
-  searchTimeout: any;
+export class FavoriteFormComponent {
   loadingGet = false;
-  loadingRequest = false;
   isRefreshTable = false;
   resultData:any;
 
@@ -26,36 +24,21 @@ export class SearchFormComponent {
     private router: Router,
   )
   {
+    this.getAllData()
   }
 
-  onSearch() {
-    this.clearSearch();
-    this.loadingGet = true;
-    this.searchTimeout = setTimeout(() => {
-      this.searchTimeout = null;
-      this.getAllData()
-    }, this.allFunction.searchDelay);
-  }
-
-  clearSearch() {
-    if (this.searchTimeout) {
-      this.loadingGet = false;
-      clearTimeout(this.searchTimeout)
-      this.searchTimeout = null;
-    }
-  }
 
   getAllData(){
     this.loadingGet = true;
     let filter = {
-      keyword: this.search_key
+      // keyword: this.search_key
     }
 
-    this.allApi.getDataWithFilter(this.allApi.productUrl, filter).subscribe(
+    this.allApi.getDataWithFilter(this.allApi.favoriteUrl, filter).subscribe(
       (data: any) =>{
         this.loadingGet = false;
         this.resultData = data?.data;
-        console.log('search data', data)
+        console.log('favorite data', data)
       },
       (err:any) =>{
         this.loadingGet = false;

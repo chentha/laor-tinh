@@ -15,11 +15,14 @@ export class AllApiService {
   registerUrl = '/auth/register';
   cartUrl = '/carts';
   orderUrl = '/orders';
-  paymentUrl = '/orders/payment'
+  paymentUrl = '/orders'
   userUrl = '/users';
   bannersUrl = '/public/banners';
+  favoriteUrl = '/favorites';
+  sizeListUrl = '/public/product/sizes';
+  colorListUrl = '/public/product/colors';
 
-  paymentBankUrl = 'api/orders/management/{{orderId}}/payment?payment-method=CASH'
+  paymentBankUrl = 'api/orders/management/{{orderId}}/payment?payment-method=CASH';
 
   constructor(
     private http: HttpClient,
@@ -43,8 +46,8 @@ export class AllApiService {
 
 
   //khqr payment
-  createPayment(id?: number) {
-    return this.http.post(this.finalBaseApi + 'api/orders/management/' + id + '/payment?payment-method=', 'CASH');
+  createPayment(id?: number, data?:any) {
+    return this.http.post(this.finalBaseApi + '/orders/management/' + id + '/payment?payment-method=' + 'CASH', data);
   }
 
 
@@ -105,6 +108,10 @@ export class AllApiService {
 
   editData(url: any, data: any, id: any) {
     return this.http.put(this.finalBaseApi + url + id, data);
+  }
+
+  addFavorite(url: any, id?: any) {
+    return this.http.patch(this.finalBaseApi + url, id);
   }
 
   deleteData(url: any, id: any) {

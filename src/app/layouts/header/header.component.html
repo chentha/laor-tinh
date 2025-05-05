@@ -13,14 +13,14 @@
 
         <div class="auth-links" style="display: flex; align-items: center;">
             <mat-icon (click)="openForm('add')" class="custom-icon">search</mat-icon>
-            <div class="cart-container" (click)="openFormCart('add')">
+            <div class="cart-container" (click)="openFormNoti('add')">
                 <mat-icon class="custom-icon">notifications</mat-icon>
-                <span class="cart-count">1</span>
+                <!-- <span class="cart-count">1</span> -->
             </div>
-            <mat-icon class="custom-icon">favorite</mat-icon>
+            <mat-icon (click)="openFormFavorite('add')" class="custom-icon">favorite</mat-icon>
             <div class="cart-container" (click)="openFormCart('add')">
                 <mat-icon class="custom-icon">shopping_bag</mat-icon>
-                <span class="cart-count">{{ cartCount }}</span>
+                <span *ngIf="cartCount != null" class="cart-count">{{ cartCount }}</span>
             </div>
 
             <!-- login and register -->

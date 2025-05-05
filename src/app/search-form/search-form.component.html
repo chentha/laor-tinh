@@ -11,7 +11,9 @@
 <div class="data-view" *ngIf="!loadingGet">
     <div class="product-list" *ngFor=" let data of resultData">
         <div class="product-item" (click)="gotoPage(data.id)">
-            <img [src]="data.thumbnail"
+            <img *ngIf="data?.thumbnail != 'image'" [src]="data?.thumbnail"
+                 alt="Aaron Gordon AG V: Denver" class="product-image" />
+            <img *ngIf="data?.thumbnail == 'image'" src="../../assets/images/default-image.webp"
                  alt="Aaron Gordon AG V: Denver" class="product-image" />
             <div class="product-details">
                 <p class="product-name">{{ data.name }}</p>
@@ -20,6 +22,7 @@
         </div>
     </div>
 </div>
-<span class="no-data" *ngIf="!loadingGet && resultData.length <= 0 ">No results could be found.</span>
+
+<!-- <span class="no-data" *ngIf="!loadingGet && resultData?.length <= 0">No results could be found.</span> -->
 <app-loading [isLoading]="loadingGet"></app-loading>
 

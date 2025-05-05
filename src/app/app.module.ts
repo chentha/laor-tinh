@@ -51,7 +51,9 @@ import { ProfileUserComponent } from './profile-user/profile-user.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { KhqrComponent } from './popup-khqr/khqr/khqr.component';
 import { QRCodeModule } from 'angularx-qrcode';
-
+import { FavoriteFormComponent } from './favorite-form/favorite-form.component';
+import { NotificationComponent } from './notification/notification.component';
+import { FilterProductComponent } from './filter-product/filter-product.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,10 @@ import { QRCodeModule } from 'angularx-qrcode';
     CartComponent,
     CheckoutsComponent,
     ProfileUserComponent,
-    KhqrComponent
+    KhqrComponent,
+    FavoriteFormComponent,
+    NotificationComponent,
+    FilterProductComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +108,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     ProgressSpinnerModule,
     MatRadioModule,
     ToastrModule.forRoot(),
-    QRCodeModule
+    QRCodeModule,
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -84,22 +84,30 @@ export class CartComponent {
 
   orderProduct() {
     const items = this.dataObject.map((data: any) => {
-      const sizeIds = data.product.optionProducts[0]?.sizes.map((size: any) => size.id) || [];
-      const colorIds = data.product.optionProducts[0]?.colors.map((color: any) => color.id) || [];
-      
+      const optionProduct = data.product.optionProducts?.[0];
+    
+      const sizeIds = Array.isArray(optionProduct?.sizes)
+        ? optionProduct.sizes.map((size: any) => size.id)
+        : [];
+    
+      const colorIds = Array.isArray(optionProduct?.colors)
+        ? optionProduct.colors.map((color: any) => color.id)
+        : [];
+    
       const optionValues = [...sizeIds, ...colorIds];
-  
+    
       return {
         productId: data.product.id,
         quantity: data.quantity,
-        optionValues: optionValues,  
+        optionValues: optionValues,
       };
     });
-  
+    
     const inputData = {
       remark: null,
       items: items,
     };
+    
   
     console.log('data json', this.dataObject);
   
@@ -152,7 +160,7 @@ export class CartComponent {
 
   updateCartCountAfterRemoval() {
     const currentCount = parseInt(localStorage.getItem('cartCount') || '0', 10);
-    const newCount = currentCount > 0 ? currentCount - 1 : 0;
+    const newCount = currentCount - 1;
 
     localStorage.setItem('cartCount', newCount.toString());
 
