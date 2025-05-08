@@ -2,9 +2,8 @@ import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { AllApiService } from '../core/all-api.service';
 import { Router } from '@angular/router';
 import { GeneralFunctionService } from '../core/function/general-function.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SearchFormComponent } from '../search-form/search-form.component';
-import { HttpHeaders } from '@angular/common/http';
 import { FilterProductComponent } from '../filter-product/filter-product.component';
 
 @Component({
@@ -29,19 +28,14 @@ export class HomeComponent {
 
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dataDetail: any,
+    // @Inject(MAT_DIALOG_DATA) public dataDetail: any,
     private allApi: AllApiService,
     private router: Router,
     private allFunction: GeneralFunctionService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<HomeComponent>,
+    // public dialogRef: MatDialogRef<HomeComponent>,
   ) {
-    console.log('tmp data', this.dataDetail)
-    this.type = this.dataDetail.type
-    if (this.type == 'add') {
-      this.getAllProduct()
-      
-    }
+
   }
 
   ngOnInit() {

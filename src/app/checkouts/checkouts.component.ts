@@ -242,14 +242,14 @@ export class CheckoutsComponent {
         PayloadFormatIndicator: "01",
         PointOfInitiationMethod: "12",
         MerchantType: "30",
-        BakongAccountID: "khqr@devb",
-        MerchantID: "123456",
-        AccountInformation: null,
-        UpiAccountInformation: "1234567812345678ABCDEFGHIJKLMNO",
-        AcquiringBank: "Dev Bank",
-        MerchantCategoryCode: "5999",
-        CountryCode: "KH",
-        MerchantName: "John Smith",
+        BakongAccountID: "chentha_hour@aclb",
+        // MerchantID: "123456",
+        // AccountInformation: null,
+        // UpiAccountInformation: "1234567812345678ABCDEFGHIJKLMNO",
+        // AcquiringBank: "Dev Bank",
+        // MerchantCategoryCode: "5999",
+        // CountryCode: "KH",
+        MerchantName: "Chentha Hour",
         MerchantCity: "PHNOM PENH",
         TransactionCurrency: "840",
         TransactionAmount: "100",
@@ -257,12 +257,12 @@ export class CheckoutsComponent {
         MobileNumber: "85512233455",
         StoreLabel: "Coffee Shop",
         TerminalLabel: "Cashier_1",
-        PurposeOfTransaction: "Buy coffee",
-        MerchantAlternateLanguagePreference: "km",
-        MerchantNameAlternateLanguage: "ចន ស្មីន",
-        MerchantCityAlternateLanguage: "ភ្នំពញ",
-        Timestamp: "1688022515354",
-        CRC: "A367"
+        // PurposeOfTransaction: "Buy coffee",
+        // MerchantAlternateLanguagePreference: "km",
+        // MerchantNameAlternateLanguage: "ចន ស្មីន",
+        // MerchantCityAlternateLanguage: "ភ្នំពញ",
+        // Timestamp: "1688022515354",
+        // CRC: "A367"
       }
     }
 
@@ -277,7 +277,15 @@ export class CheckoutsComponent {
     });
 
     console.log('khqr1', qrcode)
-    const decodeResult = KHQR.BakongKHQR.decode(KHQRString);
+    const khqrData = {
+      TransactionAmount: "1",
+      MerchantName: "Laor Tinh",
+      MerchantCity: "PHNOM PENH"
+    };
+    
+    const khqr = this.encodeKHQR(khqrData);
+    console.log('khqr1', khqr)
+    const decodeResult = KHQR.BakongKHQR.decode(khqr);
     console.log('decodeResult', decodeResult)
     const { merchantName, transactionAmount, transactionCurrency } = decodeResult.data as { merchantName: any, transactionAmount: number, transactionCurrency: string };
 
@@ -338,8 +346,59 @@ export class CheckoutsComponent {
     return currencySigns[currencyCode] ;
   }
 
-
-
+  encodeKHQR(data: any): string {
+    const format = (id: string, value?: string): string => {
+      if (!value) return '';
+      const len = value.length.toString().padStart(2, '0');
+      return `${id}${len}${value}`;
+    };
+  
+    // Merchant Account Information Template (Tag 29)
+    const merchantAccountInfo = 
+      format("00", "khqr@ppcb") +
+      format("01", "0000") +
+      format("02", "39360226Phnom Penh Commercial Bank"); // Example bank
+  
+    const merchantAccount = format("29", merchantAccountInfo);
+  
+    const payload = [
+      format("00", "01"), // Payload Format Indicator
+      format("01", "12"), // Point of Initiation Method
+      merchantAccount,
+      format("52", "5999"), // Merchant Category Code (generic retail)
+      format("53", "840"),  // Currency (USD)
+      format("54", data.TransactionAmount), // Amount
+      format("58", "KH"), // Country
+      format("59", data.MerchantName), // Merchant Name
+      format("60", data.MerchantCity), // Merchant City
+      format("62", format("01", "2400017020240521000008420199170013171628268728163047")) // Additional Data
+    ];
+  
+    // Generate string before CRC
+    let qrString = payload.join('');
+    qrString += "6304"; // Append CRC ID and length placeholder
+  
+    // Compute CRC16-CCITT (False)
+    const crc = this.calculateCRC(qrString).toUpperCase();
+    return qrString + crc;
+  }
+  
+  calculateCRC(str: string): string {
+    let crc = 0xFFFF;
+    for (let c of str) {
+      crc ^= c.charCodeAt(0) << 8;
+      for (let i = 0; i < 8; i++) {
+        if ((crc & 0x8000) !== 0) {
+          crc = (crc << 1) ^ 0x1021;
+        } else {
+          crc <<= 1;
+        }
+        crc &= 0xFFFF;
+      }
+    }
+    return crc.toString(16).padStart(4, '0');
+  }
+  
 
 
 }

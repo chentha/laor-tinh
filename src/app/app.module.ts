@@ -96,7 +96,7 @@ import { FilterProductComponent } from './filter-product/filter-product.componen
     MatButtonModule,
     MatExpansionModule,
     AccordionModule,
-    FormsModule,
+    FormsModule, 
     ReactiveFormsModule,
     DialogModule,
     AnimateOnScrollModule,
