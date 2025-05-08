@@ -205,7 +205,7 @@ export class CheckoutsComponent {
     this.allApi.createData(this.allApi.paymentUrl, inputData).subscribe(
       (data: any) => {
         console.log('data order success', data)
-        this.visible = true;
+        // this.visible = true;
         // this.deleteCart(this.userId);
         this.createPayment(data.data.id);
       }
@@ -228,7 +228,17 @@ export class CheckoutsComponent {
         console.log('data sucess payment', data)
         this.dataPayment = data;
         // this.openFormKhqr('edit', data)
-        this.generateKHQR()
+        // this.generateKHQR()
+        this.verifyPayment(data.data.paymentId)
+      }
+    )
+  }
+
+  verifyPayment(id:number){
+    this.allApi.verifyPayment(this.allApi.verifyPaymentUrl , id).subscribe(
+      (data:any) =>{
+          console.log('payment success');
+          this.visible = true;
       }
     )
   }

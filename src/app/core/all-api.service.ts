@@ -23,6 +23,7 @@ export class AllApiService {
   colorListUrl = '/public/product/colors';
 
   paymentBankUrl = 'api/orders/management/{{orderId}}/payment?payment-method=CASH';
+  verifyPaymentUrl = '/orders/management/';
 
   constructor(
     private http: HttpClient,
@@ -109,6 +110,12 @@ export class AllApiService {
   editData(url: any, data: any, id: any) {
     return this.http.put(this.finalBaseApi + url + id, data);
   }
+
+  verifyPayment(url: string, id: any) {
+    const fullUrl = `${this.finalBaseApi}${url}/${id}/payment/verified?message=success`;
+    return this.http.patch(fullUrl, {});
+  }
+  
 
   addFavorite(url: any, id?: any) {
     return this.http.patch(this.finalBaseApi + url, id);
