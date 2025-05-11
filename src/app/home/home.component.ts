@@ -100,6 +100,7 @@ export class HomeComponent {
     const filter = {
     };
 
+    console.log('filter get product')
     this.allApi.getDataWithFilter(this.allApi.productUrl, filter).subscribe(
       (data: any) => {
         this.loading = false;
