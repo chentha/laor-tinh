@@ -41,26 +41,29 @@
     <div class="size-section mb-4">
         <h5 class="fw-bold">Size</h5>
         <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
-            <button type="button" class="btn btn-outline-secondary" *ngFor="let size of dataSize"
-                [class.active]="selectedSizes.includes(size.id)" (click)="toggleSize(size)"
-                [ngClass]="{ 'active': selectedSizes.includes(size.id) }">
+            <button type="button" class="btn btn-outline-secondary" 
+                *ngFor="let size of dataSize"
+                [class.active]="selectSize === size"
+                (click)="selectSize(size)">
                 {{ size.value }}
             </button>
         </div>
     </div>
-
+    
     <!-- Color Selection -->
     <div class="size-section mb-4">
         <h5 class="fw-bold">Color</h5>
         <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
             <button type="button" class="btn btn-outline-secondary d-flex align-items-center"
-                *ngFor="let color of dataColor" [class.active]="selectedSizes.includes(color.id)"
-                (click)="toggleSize(color)" [ngClass]="{ 'active': selectedSizes.includes(color.id) }">
+                *ngFor="let color of dataColor"
+                [class.active]="selectColor === color"
+                (click)="selectColor(color)">
                 <div [style.background]="color.value" style="width: 12px; height: 10px;" class="me-1"></div>
                 {{ color.value }}
             </button>
         </div>
     </div>
+    
 
     <!-- Sticky Footer Buttons -->
     <div class="mt-auto pt-3 d-flex justify-content-between">

@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    baseAPI :'http://96.9.77.143:7002/loar-tinh/',
+    baseAPI :'https://96.9.77.143:7001/loar-tinh/',
     // baseAPI :'https://96.9.77.143:7001/loar-tinh/',
     localEncriptKey : 'loartinh@2025', 
     Username: 'loartinh',

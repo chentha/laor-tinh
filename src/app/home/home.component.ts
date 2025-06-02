@@ -95,12 +95,35 @@ export class HomeComponent {
     );
   }
 
-  getAllProduct() {
+  getAllProduct(filterValue?:any) {
     this.loading = true;
-    const filter = {
-    };
+    const filter: any = {};
 
-    console.log('filter get product')
+    if (filterValue?.discount) {
+      filter.sortDiscount = filterValue.discount;
+    }
+
+    if (filterValue?.priceSort) {
+      filter.sortPrice = filterValue.priceSort;
+    }
+
+    if (filterValue?.priceRange) {
+      filter.filterStartPrice = filterValue.priceRange[0];
+      filter.filterEndPrice = filterValue.priceRange[1];
+
+      if (filter.filterEndPrice > 500) {
+        filter.sortPrice = "highest-price";
+      }
+    }
+
+    if (filterValue?.sizes) {
+      filter.filterSize = filterValue.sizes.value;
+    }
+  
+    if (filterValue?.colors) {
+      filter.filterColor = filterValue.colors.value;
+    }
+  
     this.allApi.getDataWithFilter(this.allApi.productUrl, filter).subscribe(
       (data: any) => {
         this.loading = false;
@@ -203,11 +226,27 @@ export class HomeComponent {
       result => {
         if (result) {
           if (result.filters) {
-            console.log('Selected Filters:', result.filters);          }
+            const rawFilters = result.filters;
+            console.log('Selected Filters:', result.filters);    
+            this.getAllProduct(rawFilters)
+          }
         }
         console.log('close', result)
       }
     )
   }
+
+
+  // filter(){
+  //   filter: {
+  //     sortDiscount: '',
+  //     sortPrice: '',
+  //     filterStartPrice: '',
+  //     filterEndPrice: '',
+  //     filterColor
+  //     filterSize
+  //   }
+  // }
+
 
 }

@@ -14,9 +14,11 @@ export class FilterProductComponent {
 
   loadingGet = false;
   isRefreshTable = false;
-  resultData:any;
+  resultData: any;
   filterStartPrice: number = 0;
   filterEndPrice: number = 1000;
+  selectedSizeId: number | null = null;
+  selectedColorId: number | null = null;
 
   constructor(
     private allFunction: GeneralFunctionService,
@@ -25,12 +27,23 @@ export class FilterProductComponent {
     public dialogRef: MatDialogRef<SearchFormComponent>,
     private allApi: AllApiService,
     private router: Router,
-  )
-  {
+  ) {
     this.getAllData();
     this.listSize();
     this.listColor();
   }
+
+
+  selectSize(size: any): void {
+    console.log('sizer', size)
+    this.selectSize = size;
+  }
+
+
+  selectColor(color: any): void {
+    this.selectColor = color;
+  }
+
 
   sortOptions = [
     { label: 'New Arrivals', value: 'new-arrivals' },
@@ -39,34 +52,34 @@ export class FilterProductComponent {
     { label: 'Price (High First)', value: 'highest-price ' },
     { label: 'Discount (Low First)', value: 'lowest-discount' },
     { label: 'Discount (High First)', value: 'highest-discount' }
-  ];  
-  
+  ];
+
   selectedSort = 'Product Recommend';
   priceRange: [number, number] = [0, 859];
-  dataSize:any;
-  dataColor:any;
-  selectedSizes: (string | number)[] = [];
+  dataSize: any;
+  dataColor: any;
+  selectedSizes: any;
 
 
-  listSize(){
+  listSize() {
     this.allApi.getAllData(this.allApi.sizeListUrl).subscribe(
-      (data:any)=>{
+      (data: any) => {
         console.log('size', data);
         this.dataSize = data.data
       }
     )
   }
 
-  
-  listColor(){
+
+  listColor() {
     this.allApi.getAllData(this.allApi.colorListUrl).subscribe(
-      (data:any)=>{
+      (data: any) => {
         console.log('size', data);
         this.dataColor = data.data
       }
     )
   }
-  
+
   toggleSize(size: string | number): void {
     const index = this.selectedSizes.indexOf(size);
     if (index === -1) {
@@ -76,7 +89,7 @@ export class FilterProductComponent {
     }
   }
 
-  
+
   clearFilters(): void {
     this.selectedSort = 'Product Recommend';
     this.filterStartPrice = 0;
@@ -84,29 +97,29 @@ export class FilterProductComponent {
     this.priceRange = [0, 1000];
     this.selectedSizes = [];
   }
-  
-  
+
+
   applyFilters(): void {
     // Logic to apply the filter
     this.priceRange = [this.filterStartPrice, this.filterEndPrice];
     this.closeForm()
   }
-  
 
 
-  getAllData(){
+
+  getAllData() {
     this.loadingGet = true;
     let filter = {
       // keyword: this.search_key
     }
 
     this.allApi.getDataWithFilter(this.allApi.favoriteUrl, filter).subscribe(
-      (data: any) =>{
+      (data: any) => {
         this.loadingGet = false;
         this.resultData = data?.data;
         console.log('favorite data', data)
       },
-      (err:any) =>{
+      (err: any) => {
         this.loadingGet = false;
         console.log('Error', err)
       }
@@ -126,10 +139,15 @@ export class FilterProductComponent {
 
 
   closeForm() {
+    // const [startPrice, endPrice] = this.priceRange || [];
+
+    // const adjustedPriceRange = endPrice >= 500 ? 'highest-price' : [startPrice, endPrice];
+  
     const selectedFilterData = {
       sort: this.selectedSort,
       priceRange: this.priceRange,
-      sizes: this.selectedSizes
+      sizes: this.selectSize,
+      colors: this.selectColor
     };
     this.allFunction.closeDialog(this.dataDetail.form_name)
     setTimeout(() => {
