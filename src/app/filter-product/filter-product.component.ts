@@ -55,7 +55,7 @@ export class FilterProductComponent {
   ];
 
   selectedSort = 'Product Recommend';
-  priceRange: [number, number] = [0, 859];
+  priceRange: [number, number] = [0 , 1000];
   dataSize: any;
   dataColor: any;
   selectedSizes: any;

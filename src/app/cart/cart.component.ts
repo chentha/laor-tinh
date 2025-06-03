@@ -160,11 +160,12 @@ export class CartComponent {
 
   updateCartCountAfterRemoval() {
     const currentCount = parseInt(localStorage.getItem('cartCount') || '0', 10);
-    const newCount = currentCount - 1;
+    if(currentCount >= 0){
+      const newCount = currentCount - 1;
+      localStorage.setItem('cartCount', newCount.toString());
+      this.cartService.updateCartCount(newCount);
+    }
 
-    localStorage.setItem('cartCount', newCount.toString());
-
-    this.cartService.updateCartCount(newCount);
   }
 
 

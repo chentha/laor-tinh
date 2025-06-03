@@ -68,13 +68,13 @@ export class DetialProductComponent implements OnInit {
 
   ngOnInit() {
     this.token = localStorage.getItem('token')
-   }
+  }
 
   // get f() {
   //   return this.inputGroup.controls
   // }
 
-  
+
 
   getDetail() {
     this.allApi.getDataDetailById(this.allApi.productUrl, this.productId).subscribe(
@@ -109,23 +109,27 @@ export class DetialProductComponent implements OnInit {
   }
 
   addCart() {
-  
+
     const inputData = {
       'userId': this.userId,
       'clothesProductId': Number(this.productId),
-      'optionValues': [this.size.value,this.color.value],
+      'optionValues': [this.size.value, this.color.value],
       'quantity': this.quantity,
     };
-  
+
     console.log('inputData', inputData);
-  
+    let checkId = localStorage.getItem('id_Proc')
+
     this.allApi.createData(this.allApi.cartUrl, inputData).subscribe(
       (data: any) => {
         console.log('add cart data success', data);
-        const currentCount = this.cartService.getCartCount();
-        const addedQuantity = 1;
-        const newCartCount = currentCount + addedQuantity;
-        this.cartService.updateCartCount(newCartCount);
+        localStorage.setItem('id_Proc', data.data.id)
+        if (checkId != data.data.id) {
+          const currentCount = this.cartService.getCartCount();
+          const addedQuantity = 1;
+          const newCartCount = currentCount + addedQuantity;
+          this.cartService.updateCartCount(newCartCount);
+        }
         this.ToastrService.typeSuccessAddCart();
         // this.router.navigate(['detial-product'], {
         //   queryParams: { product_id: data?.id },
@@ -136,7 +140,7 @@ export class DetialProductComponent implements OnInit {
       }
     );
   }
-  
-  
+
+
 }
 

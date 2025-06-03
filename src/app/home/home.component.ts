@@ -99,8 +99,16 @@ export class HomeComponent {
     this.loading = true;
     const filter: any = {};
 
-    if (filterValue?.discount) {
-      filter.sortDiscount = filterValue.discount;
+
+    if (filterValue?.sort) {
+      if (filterValue.sort.includes('discount')) {
+        filter.sortDiscount = filterValue.sort; // use this when sort includes 'discount'
+      } else if (filterValue.sort.includes('price')) {
+        filter.sortPrice = filterValue.sort;
+      }
+      else if (filterValue.sort.includes('new') || filterValue.sort.includes('popular')) {
+        filter.filter = filterValue.sort;
+      }
     }
 
     if (filterValue?.priceSort) {
@@ -108,12 +116,17 @@ export class HomeComponent {
     }
 
     if (filterValue?.priceRange) {
-      filter.filterStartPrice = filterValue.priceRange[0];
-      filter.filterEndPrice = filterValue.priceRange[1];
-
-      if (filter.filterEndPrice > 500) {
-        filter.sortPrice = "highest-price";
+      // filter.filterStartPrice = filterValue.priceRange[0];
+      // filter.filterEndPrice = filterValue.priceRange[1];
+      const [start, end] = filterValue.priceRange;
+      if (start !== 0 || end !== 1000) {
+        filter.filterStartPrice = start;
+        filter.filterEndPrice = end;
       }
+
+      // if (filter.filterEndPrice > 500) {
+      //   filter.sortPrice = "highest-price";
+      // }
     }
 
     if (filterValue?.sizes) {
